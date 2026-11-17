@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f3">
+  <meta name="description" content="宴会の人数とコースから、食材ごとの仕込み量と卸への発注締め切りをひと目で確認。お店の段取りを助ける、ブラウザで使える仕込み帖。">
+  <title>仕込み帖 — 宴会の準備に、見通しを。</title>
+  <style>
+    :root{--bg:#f8f7f3;--paper:#fff;--ink:#283d35;--muted:#748078;--line:#e6e9e2;--orange:#ce653c;--orange-light:#fcf1e9;--green:#2c493d;--green-light:#edf2ed;--radius:18px;--shadow:0 3px 18px #263f3204}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;font-size:14px;line-height:1.7;font-feature-settings:"palt"}button,input,select{font:inherit}button{cursor:pointer}button,input{touch-action:manipulation}button{color:inherit}button:disabled{cursor:not-allowed;opacity:.4}a{color:inherit}input{color:var(--ink)}svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}button svg{pointer-events:none}button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #ce653c99;outline-offset:4px}input[type=checkbox],input[type=radio]{accent-color:var(--green)}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.skip-link{position:fixed;top:-80px;left:12px;padding:10px 18px;background:white;z-index:10}.skip-link:focus{top:12px}
+    .topbar{height:86px;background:#ffffffb3;border-bottom:1px solid var(--line)}.topbar-inner{height:100%;max-width:1328px;margin:auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand-mark{width:39px;height:43px;background:var(--orange);color:white;border-radius:9px;display:grid;place-items:center}.brand-mark svg{width:27px;height:27px}.brand-name{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:25px;font-weight:700;letter-spacing:.1em}.brand-tag{margin-left:19px;padding-left:20px;border-left:1px solid var(--line);font-size:11px;letter-spacing:.1em;color:var(--muted)}.local-status{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}.status-dot{width:6px;height:6px;border-radius:50%;background:#779575}
+    main{max-width:1328px;padding:44px 48px 28px;margin:auto}.hero{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-bottom:32px}.eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.19em;color:var(--orange);margin:0 0 12px}.eyebrow:before{content:"";width:22px;height:1px;background:var(--orange)}h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:35px;line-height:1.55;letter-spacing:.07em;margin:0 0 10px;font-weight:600}.hero p:not(.eyebrow){font-size:12px;margin:0;color:var(--muted);letter-spacing:.035em}.hero-stamp{display:flex;align-items:center;gap:18px;color:#8a958b;font-size:11px;line-height:1.9;letter-spacing:.1em}.plate{width:80px;height:80px;color:#a8b19b;transform:rotate(-10deg)}.workspace{display:grid;grid-template-columns:326px minmax(0,1fr);gap:26px;align-items:start}.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.input-card{padding:24px}.section-heading{display:flex;align-items:center;gap:9px;margin:0;font-size:15px;font-weight:650}.section-heading .step{font-size:10px;color:var(--orange);border:1px solid #ecd9ca;border-radius:50%;width:23px;height:23px;display:grid;place-items:center;font-weight:500}.section-caption{font-size:10px;color:var(--muted);margin:5px 0 25px 32px}.field{margin-bottom:23px}.field-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:600;margin-bottom:10px}.field-label small{font-size:10px;font-weight:400;color:var(--muted)}.date-input{border:1px solid #dfe4dc;background:#fff;width:100%;min-width:0;min-height:44px;border-radius:8px;padding:8px 12px;font-size:13px}.number-control{display:flex;align-items:center;justify-content:space-between;border:1px solid #dfe4dc;padding:9px;border-radius:10px}.stepper{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:7px;background:#f3f5ef;font-size:23px;font-weight:300}.number-value{display:flex;align-items:baseline;gap:6px}.number-value input{width:76px;padding:0;border:0;background:transparent;text-align:center;font-size:30px;line-height:1.4;font-weight:650;font-variant-numeric:tabular-nums;-moz-appearance:textfield}.number-value input::-webkit-inner-spin-button{appearance:none}.number-value span{font-size:12px;color:var(--muted)}input[type=range]{width:100%;height:5px;accent-color:var(--orange);cursor:pointer;margin:20px 0 6px;display:block}.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:#8c948c}.course-group{border:0;margin:0 0 23px;padding:0;min-width:0}.course-group legend{padding:0;margin-bottom:10px;font-size:12px;font-weight:600}.course-option{display:block;position:relative;margin-bottom:8px;cursor:pointer}.course-option input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.course-content{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px;transition:background .15s,border-color .15s}.radio-circle{width:15px;height:15px;border:1px solid #cbd2c8;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.course-option input:checked+.course-content{border-color:var(--orange);background:#fffbf6}.course-option input:checked+.course-content .radio-circle{border-color:var(--orange)}.course-option input:checked+.course-content .radio-circle:after{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}.course-option input:focus-visible+.course-content{outline:3px solid #ce653c99;outline-offset:2px}.course-name{font-size:12px;font-weight:600;display:block}.course-sub{font-size:9px;color:var(--muted);display:block;margin-top:1px}.course-price{margin-left:auto;text-align:right;white-space:nowrap;font-size:13px;font-weight:650}.course-price small{font-size:8px;font-weight:400;color:var(--muted);display:block}.buffer-field{border-top:1px dashed #e0e4db;padding-top:21px;margin-bottom:3px}.buffer-value{color:var(--orange);font-size:14px}.helper{font-size:10px;color:var(--muted);margin:8px 0 0;line-height:1.8}.sample-note{padding:15px 6px 0;display:flex;align-items:flex-start;gap:8px;font-size:10px;color:var(--muted);line-height:1.9}.sample-note svg{width:15px;height:15px;margin-top:2px}.input-error{font-size:11px;color:#ac4536;margin:9px 0 0}.reset{display:flex;align-items:center;gap:6px;border:0;background:none;color:var(--muted);font-size:10px;margin:15px auto 0;padding:8px}.reset svg{width:13px;height:13px}
+    .results{min-width:0}.overview{background:var(--green);color:white;border-radius:var(--radius);padding:24px 27px 22px;position:relative;overflow:hidden}.overview:after{content:"";width:180px;height:180px;border:1px solid #ffffff0a;border-radius:50%;position:absolute;right:-85px;top:-90px;box-shadow:0 0 0 22px #ffffff03,0 0 0 44px #ffffff03;pointer-events:none}.overview-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:21px}.overview-title{font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}.overview-title svg{width:17px;height:17px;color:#a9c1a6}.live-badge{font-size:9px;border:1px solid #ffffff25;padding:3px 9px;border-radius:20px;color:#d4dfd2;display:flex;align-items:center;gap:6px}.live-badge:before{content:"";width:5px;height:5px;border-radius:50%;background:#b3cba0}.overview-metrics{display:grid;grid-template-columns:1fr 1.2fr;gap:22px}.metric-label{font-size:10px;color:#bfd0c3;display:block;margin-bottom:4px}.metric-number{font-size:37px;font-weight:500;line-height:1.3;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.metric-number small{font-size:12px;font-weight:400;letter-spacing:0;margin-left:8px}.metric-note{color:#bfcdc0;font-size:10px;margin-top:8px}.deadline-metric{border-left:1px solid #ffffff26;padding-left:25px}.deadline-number{font-size:28px;line-height:1.7;letter-spacing:-.025em}.deadline-number small{font-size:11px;margin-left:7px;letter-spacing:0}.overview-footer{margin-top:20px;padding-top:13px;border-top:1px solid #ffffff21;display:flex;gap:7px;align-items:center;font-size:10px;color:#d2ded1}.overview-footer svg{width:14px;height:14px}.deadline-urgent{color:#ffd8b7}
+    .list-card{margin-top:20px;overflow:hidden}.list-toolbar{padding:0 23px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:63px}.tabs{display:flex;align-self:stretch;gap:22px}.tab{padding:17px 0;border:0;border-bottom:2px solid transparent;background:none;font-size:12px;white-space:nowrap;color:var(--muted);display:flex;align-items:center;gap:6px}.tab[aria-selected=true]{border-bottom-color:var(--orange);color:var(--ink);font-weight:600}.tab-count{font-size:9px;font-weight:500;border-radius:4px;background:#f1f3ee;padding:0 5px}.edit-button{font-size:10px;border:0;background:none;color:var(--muted);display:flex;align-items:center;gap:5px;white-space:nowrap;padding:9px 0}.edit-button svg{width:13px;height:13px}.list-intro{padding:18px 23px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}.list-intro p{font-size:10px;color:var(--muted);margin:0}.progress-label{font-size:10px;white-space:nowrap;color:var(--muted)}.progress-label strong{color:var(--orange);font-weight:600}.ingredient-table{width:100%;border-collapse:collapse;text-align:left;table-layout:fixed}.ingredient-table th{font-size:9px;font-weight:500;color:var(--muted);padding:10px 10px;background:#f8f9f5;border-bottom:1px solid var(--line)}.ingredient-table th:first-child{width:50px;padding-left:23px}.ingredient-table th:nth-child(2){width:34%}.ingredient-table th:nth-child(3){width:23%;text-align:right}.ingredient-table th:last-child{text-align:right;padding-right:24px}.ingredient-table td{padding:14px 10px;border-bottom:1px solid #eef0e9;font-size:12px;vertical-align:middle}.ingredient-table td:first-child{padding-left:23px}.ingredient-table td:last-child{padding-right:24px;text-align:right}.ingredient-table tr:last-child td{border-bottom:0}.ingredient-table input[type=checkbox]{width:16px;height:16px;cursor:pointer;display:block;margin:0}.ingredient-label{display:block;cursor:pointer}.ingredient-name{font-size:12px;font-weight:500}.ingredient-detail{font-size:9px;color:var(--muted);display:block;line-height:1.7}.amount{text-align:right;font-size:15px!important;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}.amount small{font-size:10px;font-weight:400;margin-left:4px;color:var(--muted)}.supplier-tag{font-size:9px;border-radius:5px;display:inline-block;padding:3px 7px;white-space:nowrap}.tag-produce{background:#eef3e9;color:#657e50}.tag-protein{background:#f7efea;color:#a26e54}.tag-pantry{background:#f0f0e9;color:#7a7d5d}.is-checked td{background:#fafbf8}.is-checked .ingredient-name{text-decoration:line-through;color:#909c8d}.is-checked .amount{color:#8b9987}.portion-input{width:62px;border:1px solid #d8dfd3;border-radius:4px;padding:3px;font-size:12px;display:inline-block}.per-serving{display:flex;gap:4px;align-items:center;font-size:9px;color:var(--muted);margin-top:6px}.list-footnote{font-size:9px;color:var(--muted);background:#fafbf8;padding:12px 23px;border-top:1px solid var(--line);margin:0}.actions{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:16px}.action-note{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px}.action-note svg{width:13px;height:13px}.action-buttons{display:flex;gap:8px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:9px 15px;font-size:11px;font-weight:500;border:1px solid #dce2d7;background:#fff;border-radius:8px;transition:background .15s}.btn:hover{background:#f0f3ed}.btn svg{width:15px;height:15px}.btn-primary{background:var(--orange);border-color:var(--orange);color:#fff}.btn-primary:hover{background:#b55733}.schedule-panel{padding:20px 23px}.schedule-note{font-size:10px;color:var(--muted);margin:0 0 18px}.schedule-item{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:start;padding:18px 0;border-bottom:1px solid var(--line)}.schedule-item:first-of-type{padding-top:0}.schedule-item:last-child{border:0;padding-bottom:0}.supplier-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--green-light);color:#6e8263}.supplier-icon svg{width:18px;height:18px}.supplier-title{font-size:12px;font-weight:600}.schedule-date{font-size:17px;line-height:1.6;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums}.schedule-foods{color:var(--muted);font-size:10px;margin:5px 0}.schedule-state{font-size:10px;color:#547247;display:inline-block;background:#edf3e8;padding:2px 7px;border-radius:4px}.schedule-state.late{background:#fbeee7;color:#a54b30}.ordered-label{display:flex;align-items:center;gap:5px;font-size:10px;white-space:nowrap;cursor:pointer;margin-top:6px}.ordered-label input{width:16px;height:16px}.schedule-item.done .schedule-date{color:#94a18d;text-decoration:line-through}.empty-result{padding:35px;text-align:center;color:var(--muted);font-size:13px}.settings{margin-top:24px;border-top:1px solid #dde3d7;padding-top:16px}.settings summary{list-style:none;display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:#667560;min-height:36px}.settings summary::-webkit-details-marker{display:none}.settings summary svg{width:15px;height:15px}.settings summary .chevron{margin-left:auto;transition:transform .2s}.settings[open] summary .chevron{transform:rotate(180deg)}.settings-content{padding:16px 0}.settings-content p{color:var(--muted);font-size:11px;line-height:1.9;margin:0 0 15px}.supplier-settings{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:15px 0}.supplier-setting{border:1px solid var(--line);padding:12px;border-radius:10px;background:white}.supplier-setting h3{font-size:11px;margin:0 0 8px}.supplier-setting label{font-size:10px;color:var(--muted);display:block;margin-top:8px}.supplier-setting input{width:100%;padding:6px;border:1px solid #dce2d7;border-radius:5px;margin-top:4px;min-height:36px;font-size:12px}.weekend-label{display:flex;gap:7px;align-items:center;font-size:11px}.settings-explanation{font-size:10px!important}.footer{display:flex;justify-content:space-between;align-items:center;max-width:1232px;margin:35px auto 0;padding:22px 0 0;border-top:1px solid #e3e7dc;color:#939c8e;font-size:9px;letter-spacing:.05em}.footer-brand{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:16px;letter-spacing:.1em;color:#7b8874}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:white;border-radius:10px;padding:12px 22px;box-shadow:0 5px 30px #20352926;font-size:12px;z-index:30;max-width:calc(100% - 32px);width:max-content}dialog{border:1px solid var(--line);border-radius:15px;padding:24px;width:480px;max-width:calc(100% - 32px);color:var(--ink)}dialog::backdrop{background:#1b30294d}dialog h2{font-size:17px;margin-top:0}dialog p{font-size:12px;color:var(--muted)}dialog textarea{width:100%;height:230px;border:1px solid var(--line);border-radius:8px;padding:10px;font:12px/1.8 monospace;color:var(--ink);resize:vertical}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.print-heading{display:none}
+    @media(min-width:1400px){main{padding-top:52px}.hero{margin-bottom:38px}}
+    @media(max-width:1050px){.topbar-inner{padding:0 28px}main{padding:32px 28px}.workspace{grid-template-columns:290px minmax(0,1fr);gap:20px}.input-card{padding:20px}.overview{padding:22px}.list-toolbar{padding:0 18px}.tabs{gap:16px}.hero-stamp{display:none}.ingredient-table th:nth-child(2){width:30%}.ingredient-table th:nth-child(3){width:24%}.deadline-number{font-size:25px}.actions{align-items:flex-start}.action-note{max-width:120px}.list-intro{padding:16px 18px}.brand-tag{font-size:10px}}
+    @media(max-width:780px){.topbar{height:72px}.topbar-inner{padding:0 22px}.brand-tag{display:none}.brand-name{font-size:22px}.brand-mark{width:33px;height:37px}.local-status{font-size:9px}main{padding:30px 20px 24px}.hero{margin-bottom:25px}h1{font-size:29px}.hero p:not(.eyebrow){font-size:11px;line-height:1.9}.workspace{grid-template-columns:1fr;gap:22px}.input-card{padding:22px;display:grid;grid-template-columns:1fr 1fr;column-gap:24px}.input-heading{grid-column:1/-1}.section-caption{margin-bottom:22px}.course-group{grid-column:2;grid-row:2/4;margin-bottom:0}.course-content{padding:12px 10px;gap:7px}.course-name{font-size:11px}.course-price{font-size:12px}.buffer-field{grid-column:1/-1}.sample-note{padding-top:12px}.reset{margin:3px auto 0}.overview-metrics{grid-template-columns:1fr 1.2fr}.deadline-number{font-size:30px}.list-toolbar{padding:0 22px}.ingredient-table th:nth-child(2){width:39%}.ingredient-table th:nth-child(3){width:23%}.actions{align-items:center}.action-note{max-width:none}.footer{margin-top:27px}.supplier-settings{gap:10px}.print-button span{display:inline}}
+    @media(max-width:480px){.topbar-inner{padding:0 18px}.local-status{max-width:110px;text-align:right;line-height:1.5}.brand-name{font-size:21px}.brand{gap:9px}main{padding:26px 16px 22px}.eyebrow{font-size:9px;margin-bottom:10px}h1{font-size:27px;letter-spacing:.045em}.hero p:not(.eyebrow){max-width:290px}.input-card{display:block;padding:22px}.course-content{padding:12px}.course-name{font-size:12px}.course-price{font-size:13px}.field{margin-bottom:22px}.course-group{margin-bottom:21px}.buffer-field{margin-bottom:0}.course-sub{font-size:10px}.input-heading .section-caption{margin-bottom:22px}.sample-note{padding-left:3px;padding-right:3px}.overview{padding:21px 20px}.overview-top{margin-bottom:19px}.overview-metrics{grid-template-columns:1fr 1.18fr;gap:14px}.deadline-metric{padding-left:18px}.metric-number{font-size:35px}.deadline-number{font-size:25px;line-height:1.8}.deadline-number small{font-size:10px;margin-left:4px}.metric-note{font-size:9px}.overview-footer{font-size:9px}.list-toolbar{padding:0 17px;gap:8px}.tabs{gap:17px}.tab{font-size:11px}.tab-count{display:none}.edit-button{font-size:9px}.list-intro{padding:15px 17px;align-items:flex-start}.list-intro p{font-size:9px;max-width:190px}.progress-label{font-size:9px}.ingredient-table th:first-child{width:41px;padding-left:18px}.ingredient-table td:first-child{padding-left:18px}.ingredient-table th:nth-child(2){width:33%}.ingredient-table th:nth-child(3){width:24%}.ingredient-table th,.ingredient-table td{padding-left:6px;padding-right:6px}.ingredient-table th:last-child,.ingredient-table td:last-child{padding-right:17px}.ingredient-table td{padding-top:15px;padding-bottom:15px}.ingredient-name{font-size:11px}.ingredient-detail{font-size:8px}.supplier-tag{font-size:8px;padding:3px 5px}.amount{font-size:14px!important}.amount small{font-size:9px;margin-left:3px}.list-footnote{padding:12px 17px;font-size:8px}.actions{flex-direction:column-reverse;align-items:stretch;margin-top:13px}.action-buttons{display:grid;grid-template-columns:1fr 1.4fr}.action-note{justify-content:center;font-size:9px}.btn{min-height:44px}.supplier-settings{grid-template-columns:1fr}.supplier-setting{display:grid;grid-template-columns:1fr 1fr;column-gap:14px}.supplier-setting h3{grid-column:1/-1;margin:0}.schedule-panel{padding:18px 17px}.schedule-item{grid-template-columns:30px 1fr;gap:10px}.supplier-icon{width:30px;height:30px}.ordered-label{grid-column:2;margin-top:0}.schedule-date{font-size:17px}.schedule-note{font-size:9px}.footer{align-items:flex-start;gap:20px}.footer>span:last-child{text-align:right;font-size:8px}.portion-input{width:48px;font-size:11px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+    @media print{body{background:white;font-size:11px}.topbar,.hero,.input-column,.actions,.settings,.footer,.list-toolbar,.edit-button,.toast,dialog,.schedule-note,.live-badge{display:none!important}main{padding:0;max-width:none}.workspace{display:block}.overview{background:white!important;color:#222;border:1px solid #aaa;padding:18px;border-radius:0;break-inside:avoid}.overview *{color:#222!important}.overview-footer{border-color:#aaa}.deadline-metric{border-color:#aaa}.print-heading{display:block;font-size:22px;margin:0 0 20px}.list-card{border:0;box-shadow:none;border-radius:0}#ingredientsPanel,#schedulePanel{display:block!important}.ingredient-table td{padding-top:8px;padding-bottom:8px}.ingredient-table tr,.schedule-item{break-inside:avoid}.schedule-panel{padding:20px 0}.schedule-panel:before{content:"発注スケジュール";display:block;font-weight:bold;font-size:15px;margin-bottom:18px}.list-footnote{background:white}.is-checked td{background:white}input[type=checkbox]{print-color-adjust:exact}.ingredient-table .per-serving{display:none}.ordered-label{display:flex}.supplier-tag{border:1px solid #ddd}.list-intro{padding-left:0}.overview:after{display:none}}
+  </style>
+</head>
+<body>
+  <svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19 4C7 3 3 8 5 14s12 7 14-10Z"/><path d="M4 21 14 10M9 16l-1-5m4 2 5 1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16m-11 4h2m3 0h1"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-9h.01"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7Zm10-3h.01"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l5-1L21 7l-5-5L4 14Z"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h5m4 0h7M4 18h10m4 0h2M4 12h10m4 0h2"/><circle cx="11" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m3 7 9-4 9 4v11l-9 4-9-4Zm0 0 9 4 9-4M12 11v11M7 5l10 4v4"/></symbol>
+  </defs></svg>
+  <a class="skip-link" href="#planner">予約条件の入力へ</a>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="#" aria-label="仕込み帖 ページの先頭へ"><span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17h20c-1 7-5 10-10 10S7 24 6 17ZM10 28h12M11 5l3 9M21 4l-3 10M6 13h20"/></svg></span><span class="brand-name">仕込み帖</span><span class="brand-tag">おいしい宴会は、いい段取りから。</span></a>
+    <span class="local-status"><span class="status-dot"></span><span id="saveStatus">このブラウザに自動保存</span></span>
+  </div></header>
+  <main>
+    <section class="hero" aria-labelledby="pageTitle"><div><p class="eyebrow">ENKAI PREP PLANNER</p><h1 id="pageTitle">宴会の準備に、ひと目で見通しを。</h1><p>人数とコースを決めたら、仕込み量も、発注のタイミングも。<br>忙しいお店の「段取り」を、ここから。</p></div><div class="hero-stamp" aria-hidden="true"><svg class="plate" viewBox="0 0 90 90"><ellipse cx="39" cy="49" rx="29" ry="26"/><ellipse cx="39" cy="49" rx="22" ry="19"/><path d="M69 9 64 79M77 10 70 80M28 48c4-12 18-13 20-7 3 9-7 18-16 14m-4-7c7 1 11 3 12 8M25 37l3 11m20-7 6-8"/></svg><span>ひと手間の前に、<br>ひとつの見通し。</span></div></section>
+    <div class="workspace">
+      <aside class="input-column" aria-label="予約条件">
+        <section class="card input-card" id="planner">
+          <div class="input-heading"><h2 class="section-heading"><span class="step">01</span>予約の内容</h2><p class="section-caption">条件を変えると、すぐに計算します。</p></div>
+          <div class="field"><label class="field-label" for="eventDate">宴会の開催日 <small>＝ 納品希望日</small></label><input class="date-input" type="date" id="eventDate" required aria-describedby="inputError"></div>
+          <div class="field"><label class="field-label" for="guests">ご予約人数 <small>1〜300名</small></label><div class="number-control"><button type="button" class="stepper" id="decrease" aria-label="人数を1名減らす">−</button><div class="number-value"><input type="number" id="guests" value="20" min="1" max="300" step="1" inputmode="numeric" required aria-describedby="inputError"><span>名</span></div><button type="button" class="stepper" id="increase" aria-label="人数を1名増やす">＋</button></div><label class="sr-only" for="guestRange">ご予約人数をスライダーで調整</label><input type="range" id="guestRange" min="1" max="300" value="20"><div class="range-ticks" aria-hidden="true"><span>1名</span><span>150名</span><span>300名</span></div></div>
+          <fieldset class="course-group"><legend>お料理のコース <span style="font-size:9px;font-weight:400;color:var(--muted)">／ サンプル</span></legend>
+            <label class="course-option"><input type="radio" name="course" value="casual"><span class="course-content"><span class="radio-circle"></span><span><span class="course-name">お手軽コース</span><span class="course-sub">唐揚げ・サラダ・ごはんなど</span></span><span class="course-price">¥3,000<small>参考価格 / 名</small></span></span></label>
+            <label class="course-option"><input type="radio" name="course" value="standard" checked><span class="course-content"><span class="radio-circle"></span><span><span class="course-name">定番コース</span><span class="course-sub">お刺身・唐揚げ・小鉢など</span></span><span class="course-price">¥4,500<small>参考価格 / 名</small></span></span></label>
+            <label class="course-option"><input type="radio" name="course" value="premium"><span class="course-content"><span class="radio-circle"></span><span><span class="course-name">ごちそうコース</span><span class="course-sub">お刺身・牛肉・季節の野菜など</span></span><span class="course-price">¥6,000<small>参考価格 / 名</small></span></span></label>
+          </fieldset>
+          <div class="field buffer-field"><label class="field-label" for="buffer">少し多めに仕込む <output id="bufferValue" class="buffer-value" for="buffer">＋10%</output></label><input type="range" id="buffer" min="0" max="30" step="5" value="10"><div class="range-ticks" aria-hidden="true"><span>予備なし</span><span>＋15%</span><span>＋30%</span></div><p class="helper" id="bufferHelp">急な人数変更にも、少しの余裕を。</p></div>
+          <p class="input-error" id="inputError" role="alert" hidden style="grid-column:1/-1"></p>
+        </section>
+        <div class="sample-note"><svg aria-hidden="true"><use href="#i-info"/></svg><span>分量・卸の条件はサンプルです。<br>お店のレシピや取引条件に合わせて調整できます。</span></div>
+        <button class="reset" id="resetButton" type="button"><svg aria-hidden="true"><use href="#i-reset"/></svg>入力と設定をリセット</button>
+      </aside>
+      <section class="results" aria-label="仕込み量と発注締め切り">
+        <h2 class="print-heading">仕込み帖 — 宴会の準備リスト</h2>
+        <div id="invalidResult" class="card empty-result" hidden>予約条件を入力すると、仕込み量と締め切りが表示されます。</div>
+        <div id="validResult">
+          <div class="overview"><div class="overview-top"><span class="overview-title"><svg aria-hidden="true"><use href="#i-leaf"/></svg>今回の仕込みの目安</span><span class="live-badge">自動計算</span></div><div class="overview-metrics"><div><span class="metric-label">予備を含めた仕込み人数</span><div class="metric-number"><span id="prepServings">22</span><small>人分</small></div><div class="metric-note" id="servingsNote">20名 ＋ 予備 2名分</div></div><div class="deadline-metric"><span class="metric-label">いちばん早い発注締め切り</span><div class="deadline-number" id="firstDeadline">—</div><div class="metric-note" id="firstSupplier">—</div></div></div><div class="overview-footer"><svg aria-hidden="true"><use href="#i-calendar"/></svg><span id="reservationSummary">—</span></div></div>
+          <section class="card list-card" aria-label="準備リスト"><div class="list-toolbar"><div class="tabs" role="tablist" aria-label="表示するリスト"><button class="tab" id="ingredientsTab" type="button" role="tab" aria-selected="true" aria-controls="ingredientsPanel" tabindex="0">仕込みリスト <span class="tab-count" id="ingredientCount">9</span></button><button class="tab" id="scheduleTab" type="button" role="tab" aria-selected="false" aria-controls="schedulePanel" tabindex="-1">発注スケジュール <span class="tab-count">3</span></button></div><button type="button" class="edit-button" id="editPortions" aria-pressed="false"><svg aria-hidden="true"><use href="#i-edit"/></svg><span>分量を調整</span></button></div>
+            <div id="ingredientsPanel" role="tabpanel" aria-labelledby="ingredientsTab" tabindex="0"><div class="list-intro"><p id="quantityExplanation">人数 × 1人分の分量に、予備分をプラス。</p><span class="progress-label">仕込み済み <strong id="prepProgress">0 / 9</strong></span></div><table class="ingredient-table"><caption class="sr-only">食材別の仕込み前の必要量。チェックで仕込み済みにできます。</caption><thead><tr><th><span class="sr-only">完了</span><svg style="width:12px;height:12px" aria-hidden="true"><use href="#i-check"/></svg></th><th scope="col">食材 / 1人分</th><th scope="col">仕込み量</th><th scope="col">発注先</th></tr></thead><tbody id="ingredientRows"></tbody></table><p class="list-footnote">※ 重量は仕込み前の目安。卵は1個単位で切り上げ。調味料・飾り・仕入れ単位は別途確認してください。</p></div>
+            <div id="schedulePanel" class="schedule-panel" role="tabpanel" aria-labelledby="scheduleTab" tabindex="0" hidden><p class="schedule-note">開催日を納品希望日として計算しています。発注は各卸へ直接お願いします。</p><div id="scheduleRows"></div><p class="helper" style="margin-top:18px">祝日・臨時休業は未反映です。実際の納品日・締め切りは卸へご確認ください。日時は日本時間です。</p></div>
+          </section>
+          <div class="actions"><span class="action-note"><svg aria-hidden="true"><use href="#i-check"/></svg>仕込んだ食材はチェックで管理</span><div class="action-buttons"><button class="btn print-button" id="printButton" type="button"><svg aria-hidden="true"><use href="#i-print"/></svg><span>印刷する</span></button><button class="btn btn-primary" id="copyButton" type="button"><svg aria-hidden="true"><use href="#i-copy"/></svg>リストをコピー</button></div></div>
+        </div>
+        <details class="settings" id="settings"><summary><svg aria-hidden="true"><use href="#i-settings"/></svg>計算のルール・卸の発注条件<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="settings-content"><p>仕込み人数は「予約人数 ×（1 ＋ 予備率）」を1人単位で切り上げます。<br>1人分の分量は「分量を調整」から変更できます。コースごとに保存されます。</p><label class="weekend-label"><input type="checkbox" id="skipWeekends" checked>卸は土日休業として、営業日で締め切りを計算する</label><div class="supplier-settings" id="supplierSettings"></div><p class="settings-explanation">「何日前」は納品希望日からさかのぼる日数です。土日休業を選んだ場合、土日を数えません（祝日は数えます）。開催日が卸の休業日にあたる場合は、納品日の個別確認が必要です。予約人数・分量・発注条件を変えると、仕込みと発注のチェックは解除されます。</p><p id="settingsError" class="input-error" role="alert" hidden></p></div></details>
+      </section>
+    </div>
+    <footer class="footer"><span class="footer-brand">仕込み帖</span><span>今日の段取りが、当日のおいしいにつながる。<br>データはこのブラウザに保存されます。</span></footer>
+  </main>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="copyDialog" aria-labelledby="copyDialogTitle"><h2 id="copyDialogTitle">リストをコピー</h2><p>下のテキストを選択して、お使いの端末のコピー操作でコピーしてください。</p><textarea id="copyText" readonly aria-label="コピー用の準備リスト"></textarea><div class="dialog-actions"><button class="btn" id="closeCopy" type="button">閉じる</button></div></dialog>
+  <dialog id="resetDialog" aria-labelledby="resetDialogTitle"><h2 id="resetDialogTitle">はじめの設定に戻しますか？</h2><p>予約条件、変更した分量、卸の発注条件、チェック状態をリセットします。</p><div class="dialog-actions"><button class="btn" id="cancelReset" type="button">キャンセル</button><button class="btn btn-primary" id="confirmReset" type="button">リセットする</button></div></dialog>
+  <noscript><p style="padding:24px">仕込み量の計算には、ブラウザのJavaScriptを有効にしてください。</p></noscript>
+  <script>
+    'use strict';
+    const STORAGE_KEY = 'shikomicho.v1';
+    const $ = id => document.getElementById(id);
+    const suppliers = {
+      protein: { name: '鮮魚・精肉卸', icon: 'i-box', days: 2, time: '12:00' },
+      produce: { name: '青果卸', icon: 'i-leaf', days: 1, time: '12:00' },
+      pantry: { name: '食品卸', icon: 'i-box', days: 3, time: '15:00' }
+    };
+    const ingredients = {
+      chicken: { name: '鶏もも肉', unit: 'g', supplier: 'protein', note: '唐揚げ用' },
+      fish: { name: '刺身用の鮮魚', unit: 'g', supplier: 'protein', note: '可食部の目安' },
+      beef: { name: '牛肉', unit: 'g', supplier: 'protein', note: '焼き物用' },
+      daikon: { name: '大根', unit: 'g', supplier: 'produce', note: '皮を除いた目安' },
+      greens: { name: '葉物野菜', unit: 'g', supplier: 'produce', note: 'サラダ用' },
+      potato: { name: 'じゃがいも', unit: 'g', supplier: 'produce', note: '皮を除いた目安' },
+      edamame: { name: '枝豆', unit: 'g', supplier: 'produce', note: 'さや付き' },
+      rice: { name: '米', unit: 'g', supplier: 'pantry', note: '炊飯前' },
+      egg: { name: '卵', unit: '個', supplier: 'pantry', note: 'だし巻き用' },
+      dashi: { name: 'だし', unit: 'ml', supplier: 'pantry', note: '希釈後の量' }
+    };
+    const courses = {
+      casual: { name: 'お手軽コース', portions: { chicken: 100, greens: 40, potato: 70, edamame: 50, rice: 80, egg: 0.5, dashi: 100 } },
+      standard: { name: '定番コース', portions: { chicken: 120, fish: 60, daikon: 60, greens: 35, potato: 70, edamame: 50, rice: 80, egg: 0.5, dashi: 120 } },
+      premium: { name: 'ごちそうコース', portions: { beef: 120, fish: 90, daikon: 70, greens: 50, potato: 60, edamame: 50, rice: 80, egg: 1, dashi: 150 } }
+    };
+    const dayMs = 86400000;
+    const iso = date => date.toISOString().slice(0, 10);
+    function japanToday() {
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+      const values = Object.fromEntries(parts.map(p => [p.type, p.value]));
+      return `${values.year}-${values.month}-${values.day}`;
+    }
+    function parseDay(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+      const date = new Date(value + 'T00:00:00Z');
+      return Number.isFinite(date.getTime()) && iso(date) === value ? date : null;
+    }
+    function defaults() {
+      const nextWeek = new Date(parseDay(japanToday()).getTime() + 7 * dayMs);
+      return { version: 1, guests: 20, date: iso(nextWeek), course: 'standard', buffer: 10, skipWeekends: true, supplierRules: Object.fromEntries(Object.entries(suppliers).map(([id, s]) => [id, { days: s.days, time: s.time }])), overrides: { casual: {}, standard: {}, premium: {} }, checked: [], ordered: [] };
+    }
+    const validTime = value => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+    function loadState() {
+      const clean = defaults();
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!raw || raw.version !== 1) return clean;
+        if (Number.isInteger(raw.guests) && raw.guests >= 1 && raw.guests <= 300) clean.guests = raw.guests;
+        if (parseDay(raw.date) && raw.date >= '2000-01-01' && raw.date <= '2100-12-31') clean.date = raw.date;
+        if (Object.hasOwn(courses, raw.course)) clean.course = raw.course;
+        if (Number.isInteger(raw.buffer) && raw.buffer >= 0 && raw.buffer <= 30 && raw.buffer % 5 === 0) clean.buffer = raw.buffer;
+        if (typeof raw.skipWeekends === 'boolean') clean.skipWeekends = raw.skipWeekends;
+        for (const id of Object.keys(suppliers)) {
+          const rule = raw.supplierRules?.[id];
+          if (Number.isInteger(rule?.days) && rule.days >= 1 && rule.days <= 14 && validTime(rule.time)) clean.supplierRules[id] = { days: rule.days, time: rule.time };
+        }
+        for (const [course, data] of Object.entries(courses)) {
+          for (const id of Object.keys(data.portions)) {
+            const amount = raw.overrides?.[course]?.[id];
+            if (typeof amount === 'number' && amount >= 0.1 && amount <= 5000 && Math.abs(amount * 10 - Math.round(amount * 10)) < 1e-6) clean.overrides[course][id] = amount;
+          }
+        }
+        clean.checked = Array.isArray(raw.checked) ? [...new Set(raw.checked.filter(id => Object.hasOwn(courses[clean.course].portions, id)))] : [];
+        clean.ordered = Array.isArray(raw.ordered) ? [...new Set(raw.ordered.filter(id => Object.hasOwn(suppliers, id)))] : [];
+      } catch { /* Storage is optional: the calculator also works without it. */ }
+      return clean;
+    }
+    let state = loadState();
+    let editing = false;
+    let activeTab = 'ingredients';
+    let toastTimer, announceTimer;
+    let invalidPortions = new Set();
+    function save() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); $('saveStatus').textContent = 'このブラウザに自動保存'; }
+      catch { $('saveStatus').textContent = '保存できません・この画面で利用中'; }
+    }
+    function notify(message) { $('toast').textContent = message; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('toast').hidden = true; }, 3500); }
+    function clearChecks() { state.checked = []; state.ordered = []; }
+    function fillInputs() {
+      $('eventDate').value = state.date; $('eventDate').min = '2000-01-01'; $('eventDate').max = '2100-12-31';
+      $('guests').value = state.guests; $('guestRange').value = state.guests;
+      document.querySelector(`input[name="course"][value="${state.course}"]`).checked = true;
+      $('buffer').value = state.buffer; $('skipWeekends').checked = state.skipWeekends;
+      $('supplierSettings').innerHTML = Object.entries(suppliers).map(([id, s]) => `<div class="supplier-setting"><h3>${s.name}</h3><label for="days-${id}">納品の何日前？<input id="days-${id}" type="number" min="1" max="14" step="1" value="${state.supplierRules[id].days}" inputmode="numeric" required data-rule="days" data-supplier="${id}"></label><label for="time-${id}">締め切り時刻<input id="time-${id}" type="time" value="${state.supplierRules[id].time}" required data-rule="time" data-supplier="${id}"></label></div>`).join('');
+    }
+    function servings() { return Math.ceil(state.guests * (100 + state.buffer) / 100); }
+    function portion(id) { return state.overrides[state.course][id] ?? courses[state.course].portions[id]; }
+    function quantity(id) { const raw = Math.round(portion(id) * servings() * 10) / 10; return ingredients[id].unit === '個' ? Math.ceil(raw) : raw; }
+    function formatQuantity(id) {
+      const value = quantity(id); const unit = ingredients[id].unit;
+      if (value >= 1000 && (unit === 'g' || unit === 'ml')) return { value: (value / 1000).toLocaleString('ja-JP', { maximumFractionDigits: 4 }), unit: unit === 'g' ? 'kg' : 'L' };
+      return { value: value.toLocaleString('ja-JP', { maximumFractionDigits: 1 }), unit };
+    }
+    function dateLabel(value, includeYear = false) {
+      const d = parseDay(value);
+      return `${includeYear ? d.getUTCFullYear() + '年' : ''}${d.getUTCMonth() + 1}/${d.getUTCDate()}（${'日月火水木金土'[d.getUTCDay()]}）`;
+    }
+    function deadlines() {
+      return Object.keys(suppliers).map(id => {
+        let day = parseDay(state.date); let remaining = state.supplierRules[id].days;
+        while (remaining > 0) { day = new Date(day.getTime() - dayMs); if (!state.skipWeekends || ![0, 6].includes(day.getUTCDay())) remaining--; }
+        const date = iso(day), time = state.supplierRules[id].time;
+        return { id, date, time, timestamp: new Date(`${date}T${time}:00+09:00`).getTime() };
+      }).sort((a, b) => a.timestamp - b.timestamp);
+    }
+    function deadlineStatus(deadline) {
+      if (state.ordered.includes(deadline.id)) return { text: '発注済み', late: false };
+      if (Date.now() >= deadline.timestamp) return { text: '締め切り超過・卸へ確認', late: true };
+      if (deadline.date === japanToday()) return { text: '本日締め切り', late: true };
+      const days = Math.round((parseDay(deadline.date) - parseDay(japanToday())) / dayMs);
+      return { text: `締め切りまであと${days}日`, late: false };
+    }
+    function renderIngredients() {
+      const ids = Object.keys(courses[state.course].portions);
+      $('ingredientRows').innerHTML = ids.map(id => {
+        const item = ingredients[id], q = formatQuantity(id), checked = state.checked.includes(id);
+        return `<tr class="${checked ? 'is-checked' : ''}"><td><input type="checkbox" id="check-${id}" data-ingredient="${id}" ${checked ? 'checked' : ''} aria-label="${item.name}を仕込み済みにする"></td><td><label for="check-${id}" class="ingredient-label"><span class="ingredient-name">${item.name}</span></label><span class="ingredient-detail">${item.note} · ${portion(id)}${item.unit}</span>${editing ? `<label class="per-serving" for="portion-${id}"><span class="sr-only">${item.name}の1人分の分量</span><input class="portion-input" type="number" id="portion-${id}" data-portion="${id}" value="${portion(id)}" min="0.1" max="5000" step="0.1" inputmode="decimal" required>${item.unit}/人</label>` : ''}</td><td class="amount" data-amount="${id}">${q.value}<small>${q.unit}</small></td><td><span class="supplier-tag tag-${item.supplier}">${suppliers[item.supplier].name}</span></td></tr>`;
+      }).join('');
+      $('ingredientCount').textContent = ids.length;
+      $('prepProgress').textContent = `${state.checked.length} / ${ids.length}`;
+      $('quantityExplanation').textContent = editing ? '1人分の分量を変更できます（0.1〜5,000）。' : `${servings()}人分の食材量。仕込みが済んだらチェック。`;
+      $('editPortions').setAttribute('aria-pressed', String(editing));
+      $('editPortions').querySelector('span').textContent = editing ? '調整を完了' : '分量を調整';
+    }
+    function renderSummary() {
+      const list = deadlines(), first = list[0], firstStatus = deadlineStatus(first);
+      $('prepServings').textContent = servings();
+      $('servingsNote').textContent = `${state.guests}名 ＋ 予備 ${servings() - state.guests}名分`;
+      const d = parseDay(first.date);
+      $('firstDeadline').innerHTML = `${d.getUTCMonth() + 1}/${d.getUTCDate()}<small>（${'日月火水木金土'[d.getUTCDay()]}） ${first.time}</small>`;
+      $('firstSupplier').textContent = `${suppliers[first.id].name} · ${firstStatus.text}`;
+      $('firstSupplier').classList.toggle('deadline-urgent', firstStatus.late);
+      const weekendDelivery = state.skipWeekends && [0, 6].includes(parseDay(state.date).getUTCDay());
+      $('reservationSummary').textContent = `${dateLabel(state.date, true)} 開催 ／ ${courses[state.course].name}${weekendDelivery ? ' ／ 休業日の納品は要確認' : ''}`;
+      $('scheduleRows').innerHTML = list.map(deadline => {
+        const s = suppliers[deadline.id], status = deadlineStatus(deadline), done = state.ordered.includes(deadline.id);
+        const foods = Object.keys(courses[state.course].portions).filter(id => ingredients[id].supplier === deadline.id).map(id => ingredients[id].name).join('・');
+        return `<article class="schedule-item ${done ? 'done' : ''}"><span class="supplier-icon"><svg aria-hidden="true"><use href="#${s.icon}"/></svg></span><div><div class="supplier-title">${s.name}</div><div class="schedule-date">${dateLabel(deadline.date)} ${deadline.time}</div><span class="schedule-state ${status.late ? 'late' : ''}">${status.text}</span><p class="schedule-foods">${foods}</p><p class="helper">${state.supplierRules[deadline.id].days}${state.skipWeekends ? '営業日' : '日'}前までに発注</p></div><label class="ordered-label"><input type="checkbox" data-ordered="${deadline.id}" ${done ? 'checked' : ''}>発注済み</label></article>`;
+      }).join('');
+    }
+    function render() {
+      $('bufferValue').textContent = `＋${state.buffer}%`;
+      $('decrease').disabled = state.guests <= 1; $('increase').disabled = state.guests >= 300;
+      $('guestRange').value = state.guests;
+      document.querySelectorAll('.range-ticks')[0].innerHTML = `<span>1名</span><span>${Math.round(Number($('guestRange').max) / 2)}名</span><span>${$('guestRange').max}名</span>`;
+      $('copyButton').disabled = false; $('printButton').disabled = false;
+      renderIngredients(); renderSummary(); save();
+      clearTimeout(announceTimer); announceTimer = setTimeout(() => { $('announcement').textContent = `${state.guests}名、${courses[state.course].name}。予備込み${servings()}人分の仕込み量に更新しました。`; }, 400);
+    }
+    function validate() {
+      const guests = Number($('guests').value), date = $('eventDate').value;
+      const guestValid = $('guests').value !== '' && Number.isInteger(guests) && guests >= 1 && guests <= 300;
+      const dateValid = !!parseDay(date) && date >= '2000-01-01' && date <= '2100-12-31';
+      $('guests').setAttribute('aria-invalid', String(!guestValid)); $('eventDate').setAttribute('aria-invalid', String(!dateValid));
+      const rulesValid = [...document.querySelectorAll('[data-rule]')].every(input => input.value !== '' && input.checkValidity() && (input.dataset.rule !== 'time' || validTime(input.value)));
+      $('settingsError').hidden = rulesValid;
+      $('settingsError').textContent = rulesValid ? '' : '発注日数は1〜14の整数、締め切り時刻は有効な時刻を入力してください。';
+      const errors = [!guestValid && '人数は1〜300の整数を入力してください。', !dateValid && '開催日を2000〜2100年の範囲で選んでください。'].filter(Boolean);
+      $('inputError').hidden = !errors.length; $('inputError').textContent = errors.join(' ');
+      const valid = guestValid && dateValid && rulesValid;
+      $('validResult').hidden = !valid; $('invalidResult').hidden = valid;
+      return valid;
+    }
+    function updateConditions() {
+      if (!validate()) return;
+      const next = { guests: Number($('guests').value), date: $('eventDate').value, course: document.querySelector('input[name="course"]:checked').value, buffer: Number($('buffer').value), skipWeekends: $('skipWeekends').checked };
+      const nextRules = Object.fromEntries(Object.keys(suppliers).map(id => [id, { days: Number($('days-' + id).value), time: $('time-' + id).value }]));
+      const changed = Object.entries(next).some(([key, value]) => state[key] !== value) || JSON.stringify(nextRules) !== JSON.stringify(state.supplierRules);
+      state.supplierRules = nextRules;
+      if (changed) clearChecks();
+      Object.assign(state, next); invalidPortions.clear(); render();
+    }
+    function switchTab(tab) {
+      if (invalidPortions.size) { notify('分量を0.1〜5,000の範囲で入力してください。'); return; }
+      activeTab = tab;
+      for (const id of ['ingredients', 'schedule']) { const selected = id === tab; $(id + 'Tab').setAttribute('aria-selected', String(selected)); $(id + 'Tab').tabIndex = selected ? 0 : -1; $(id + 'Panel').hidden = !selected; }
+      $('editPortions').hidden = tab !== 'ingredients';
+    }
+    $('guests').addEventListener('input', updateConditions);
+    $('eventDate').addEventListener('input', updateConditions);
+    $('buffer').addEventListener('input', updateConditions);
+    $('skipWeekends').addEventListener('change', updateConditions);
+    document.querySelectorAll('[name="course"]').forEach(input => input.addEventListener('change', updateConditions));
+    $('guestRange').addEventListener('input', () => { $('guests').value = $('guestRange').value; updateConditions(); });
+    for (const [id, step] of [['decrease', -1], ['increase', 1]]) $(id).addEventListener('click', () => { const current = Number($('guests').value) || state.guests; $('guests').value = Math.min(300, Math.max(1, Math.round(current) + step)); updateConditions(); });
+    $('supplierSettings').addEventListener('input', event => {
+      const input = event.target;
+      if (!input.dataset.rule) return;
+      updateConditions();
+    });
+    $('ingredientsTab').addEventListener('click', () => switchTab('ingredients'));
+    $('scheduleTab').addEventListener('click', () => switchTab('schedule'));
+    document.querySelector('.tabs').addEventListener('keydown', event => { if (['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) { event.preventDefault(); switchTab(event.key === 'Home' ? 'ingredients' : event.key === 'End' ? 'schedule' : activeTab === 'ingredients' ? 'schedule' : 'ingredients'); $(activeTab + 'Tab').focus(); } });
+    $('editPortions').addEventListener('click', () => { if (invalidPortions.size) { notify('分量を0.1〜5,000の範囲で入力してください。'); return; } editing = !editing; renderIngredients(); if (editing) document.querySelector('[data-portion]')?.focus(); });
+    $('ingredientRows').addEventListener('change', event => {
+      const id = event.target.dataset.ingredient;
+      if (!id) return;
+      state.checked = event.target.checked ? [...new Set([...state.checked, id])] : state.checked.filter(value => value !== id);
+      event.target.closest('tr').classList.toggle('is-checked', event.target.checked);
+      $('prepProgress').textContent = `${state.checked.length} / ${Object.keys(courses[state.course].portions).length}`; save();
+    });
+    $('ingredientRows').addEventListener('input', event => {
+      const input = event.target, id = input.dataset.portion;
+      if (!id) return;
+      if (!input.checkValidity() || input.value === '') { invalidPortions.add(id); input.setAttribute('aria-invalid', 'true'); $('quantityExplanation').textContent = '分量は0.1〜5,000、小数第1位までで入力してください。'; document.querySelector(`[data-amount="${id}"]`).textContent = '—'; }
+      else {
+        invalidPortions.delete(id); input.setAttribute('aria-invalid', 'false');
+        state.overrides[state.course][id] = Number(input.value); clearChecks();
+        document.querySelectorAll('[data-ingredient]').forEach(check => { check.checked = false; check.closest('tr').classList.remove('is-checked'); });
+        const q = formatQuantity(id); document.querySelector(`[data-amount="${id}"]`).innerHTML = `${q.value}<small>${q.unit}</small>`;
+        input.closest('td').querySelector('.ingredient-detail').textContent = `${ingredients[id].note} · ${portion(id)}${ingredients[id].unit}`;
+        $('prepProgress').textContent = `0 / ${Object.keys(courses[state.course].portions).length}`; renderSummary(); save();
+        if (!invalidPortions.size) $('quantityExplanation').textContent = '1人分の分量を変更できます（0.1〜5,000）。';
+      }
+      $('copyButton').disabled = invalidPortions.size > 0; $('printButton').disabled = invalidPortions.size > 0;
+    });
+    $('scheduleRows').addEventListener('change', event => {
+      const id = event.target.dataset.ordered; if (!id) return;
+      state.ordered = event.target.checked ? [...new Set([...state.ordered, id])] : state.ordered.filter(value => value !== id);
+      renderSummary(); document.querySelector(`[data-ordered="${id}"]`).focus(); save();
+    });
+    function listText() {
+      const lines = ['【仕込み帖・宴会準備リスト】', `${dateLabel(state.date, true)} 開催（納品希望日）`, `${courses[state.course].name} / ご予約${state.guests}名 / 予備${state.buffer}% / 仕込み${servings()}人分`, '', '■ 仕込み量（仕込み前の目安）'];
+      for (const id of Object.keys(courses[state.course].portions)) { const q = formatQuantity(id); lines.push(`${state.checked.includes(id) ? '✓' : '□'} ${ingredients[id].name}：${q.value}${q.unit}（1人分${portion(id)}${ingredients[id].unit}）`); }
+      lines.push('', '■ 発注締め切り（日本時間）');
+      for (const deadline of deadlines()) lines.push(`${suppliers[deadline.id].name}：${dateLabel(deadline.date, true)} ${deadline.time} / ${deadlineStatus(deadline).text}`);
+      lines.push('', `計算条件：${state.skipWeekends ? '土日を除く営業日' : '暦日'}で計算。祝日・臨時休業は未反映。`, '分量・発注条件はサンプルをもとにした目安です。実際のレシピ・卸の条件をご確認ください。', '調味料・飾り・仕入れ単位は別途確認。開催日が卸の休業日の場合、納品日を個別に確認してください。');
+      return lines.join('\n');
+    }
+    $('copyButton').addEventListener('click', async () => {
+      const text = listText();
+      try { if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable'); await navigator.clipboard.writeText(text); notify('仕込み量と発注締め切りをコピーしました。'); }
+      catch { $('copyText').value = text; $('copyDialog').showModal(); $('copyText').focus(); $('copyText').select(); }
+    });
+    $('closeCopy').addEventListener('click', () => $('copyDialog').close());
+    $('printButton').addEventListener('click', () => window.print());
+    $('resetButton').addEventListener('click', () => $('resetDialog').showModal());
+    $('cancelReset').addEventListener('click', () => $('resetDialog').close());
+    $('confirmReset').addEventListener('click', () => {
+      state = defaults(); editing = false; invalidPortions.clear(); $('copyButton').disabled = false; $('printButton').disabled = false;
+      fillInputs(); validate(); render(); switchTab('ingredients'); $('resetDialog').close(); notify('はじめの設定に戻しました。');
+    });
+    fillInputs(); validate(); render();
+    window.setInterval(() => {
+      if ($('validResult').hidden) return;
+      const focusedSupplier = document.activeElement?.dataset?.ordered; renderSummary();
+      if (focusedSupplier) document.querySelector(`[data-ordered="${focusedSupplier}"]`)?.focus();
+    }, 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && !$('validResult').hidden) renderSummary(); });
+  </script>
+</body>
+</html>
